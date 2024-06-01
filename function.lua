@@ -490,14 +490,13 @@ function CheckQuest()
                 NameQuest = "CakeQuest2"
                 NameMon = "Baking Staff"
                 CFrameQuest = CFrame.new(-1927.91602, 37.7981339, -12842.5391, -0.96804446, 4.22142143e-08, 0.250778586, 4.74911062e-08, 1, 1.49904711e-08, -0.250778586, 2.64211941e-08, -0.96804446)
-            elseif MyLevel >= 275 or MyLevel <=
- 299 then
+            elseif MyLevel >= 2275 or MyLevel <= 2299 then
                 Mon = "Head Baker [Lv. 2275]"
                 LevelQuest = 2
                 NameQuest = "CakeQuest2"
                 NameMon = "Head Baker"
                 CFrameQuest = CFrame.new(-1927.91602, 37.7981339, -12842.5391, -0.96804446, 4.22142143e-08, 0.250778586, 4.74911062e-08, 1, 1.49904711e-08, -0.250778586, 2.64211941e-08, -0.96804446)
-            elseif MyLevel >= 2300 then
+            elseif MyLevel >= 2300 or MyLevel <= 2324 then
                 Mon = "Cocoa Warrior [Lv. 2300]"
                 LevelQuest = 1
                 NameQuest = "ChocQuest1"
