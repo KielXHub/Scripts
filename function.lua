@@ -15,8 +15,34 @@ Functions.discordLink = "https://discord.gg/YOUR_DISCORD_LINK"
 
 return Functions
 
--- Main Tab
+-- Main Tab 
 
+local TweenService = game:GetService("TweenService")
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local HumanoidRootPart = LocalPlayer.Character:WaitForChild("HumanoidRootPart")
+
+function TP(P)
+    local Distance = (P.Position - HumanoidRootPart.Position).Magnitude
+    local Speed
+
+    if Distance < 10 then
+        Speed = 1000
+    elseif Distance < 170 then
+        HumanoidRootPart.CFrame = P
+        Speed = 350
+    elseif Distance < 1000 then
+        Speed = 350
+    elseif Distance >= 1000 then
+        Speed = 300
+    end
+
+    TweenService:Create(
+        HumanoidRootPart,
+        TweenInfo.new(Distance / Speed, Enum.EasingStyle.Linear),
+        {CFrame = P}
+    ):Play()
+end
 
 function CheckQuest() 
     MyLevel = game:GetService("Players").LocalPlayer.Data.Level.Value
@@ -504,4 +530,35 @@ function CheckQuest()
                 CFrameQuest = CFrame.new(4.03491974, 68.286705, -12170.5713, 4.76837158e-05, -0.996190667, 0.0872024298, -1, -4.76837158e-05, 2.08243728e-06, 2.08243728e-06, -0.0872024298, -0.996190667)
             end
         end
-end
+    end
+
+spawn(function()
+    while task.wait() do
+        if _G.AutoFarm then
+            CheckQuest()
+            if not LocalPlayer.PlayerGui.Main.Quest.Visible then
+                TP(CFrameQuest)
+                task.wait(0.9)
+                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("StartQuest", NameQuest, LevelQuest)
+            elseif LocalPlayer.PlayerGui.Main.Quest.Visible then
+                for i, v in pairs(game:GetService("Workspace").Enemies:GetChildren()) do
+                    if v.Name == Mon then
+                        TP(v.HumanoidRootPart.CFrame * CFrame.new(0, 20, 0))
+                        v.HumanoidRootPart.Size = Vector3.new(60, 60, 60)
+                    end
+                end
+            end
+        end
+    end
+end)
+
+spawn(function()
+    game:GetService("RunService").RenderStepped:Connect(function()
+        if _G.AutoFarm then
+            pcall(function()
+                game:GetService('VirtualUser'):CaptureController()
+                game:GetService('VirtualUser'):Button1Down(Vector2.new(0, 1, 0, 1))
+            end)
+        end
+    end)
+end)
