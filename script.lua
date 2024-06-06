@@ -32,22 +32,14 @@ Tabs.Discord:AddButton({
         Functions.copyToClipboard(Functions.discordLink)
     end
 
--- Idagdag ang Auto Farm tab sa iyong Main tab window
-local AutoFarmTab = Tabs.Main:AddTab({ Title = "Auto Farm", Icon = "" })
-
--- Magdagdag ng mga setting sa Auto Farm tab
-local AutoFarmEnabled = false -- Default value for Auto Farm is disabled
-
-local AutoFarmToggle = AutoFarmTab:AddToggle({
-    Title = "Auto Farm Level",
-    Description = "Automatically farms enemies based on your level.",
-    Callback = function(enabled)
-        _G.AutoFarm = enabled -- Set global variable for auto farm
-        AutoFarmEnabled = enabled
-    end,
-    Enabled = AutoFarmEnabled
-})
-
+Tabs.MAIN:AddToggle({
+    Title = "Enable Auto Farm",
+    Default = false,
+    Callback = function(state)
+        Functions.toggleAutoFarm(state)
+    end
+})                
+                
 Window:SelectTab(1)
 
 Fluent:Notify({
